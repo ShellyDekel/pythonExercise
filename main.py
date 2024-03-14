@@ -1,8 +1,15 @@
 import pandas
+import os
 
-def csv_to_json(csv_path: str, json_directory_path: str, json_file_name: str):
+def csv_to_json(csv_path: str, json_directory: str, json_file_name: str):
+    if not os.path.isfile(csv_path):
+        raise FileNotFoundError("CSV file not found")
+    
+    if not os.path.isdir(json_directory):
+        os.makedirs(json_directory)
+    
     csv_file = pandas.read_csv(csv_path)
-    json_file = open(json_directory_path + "/" + json_file_name + ".json", "w")
+    json_file = open(json_directory + "/" + json_file_name + ".json", "w")
     json_file.write(csv_file.to_json(orient='records', indent=2))
 
 def main():
