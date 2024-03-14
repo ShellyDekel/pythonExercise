@@ -3,7 +3,7 @@ import pandas
 def excelToJson(excelPath: str, jsonDirectoryPath: str, jsonFileName: str):
     excelFile = pandas.read_csv(excelPath)
     jsonFile = open(jsonDirectoryPath + "/" + jsonFileName + ".json", "w")
-    jsonFile.write(excelFile.to_json(orient='records'))
+    jsonFile.write(excelFile.to_json(orient='records', indent=2))
 
 def main():
     excelToJson("MadaReports - MadaReports.csv", "./mada_reports", "madareports")
