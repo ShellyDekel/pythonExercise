@@ -15,18 +15,10 @@ def csv_to_json(csv_path: str, json_file_name: str):
     if not os.path.isfile(csv_path) or not csv_path.endswith(".csv"):
         raise FileNotFoundError("CSV file not found")
 
-    # TODO make seperate function
     if not json_file_name.endswith(".json"):
         json_file_name += ".json"
     
-    path = os.path.split(json_file_name)
-    appendedPath = ""
-    
-    for dir in path:
-        appendedPath = os.path.join(appendedPath, dir)
-        if not os.path.isdir(appendedPath) and not dir.endswith(".json"):
-            os.makedirs(appendedPath)
-    # TODO
+    os.makedirs(os.path.dirname(json_file_name), exist_ok=True)
 
     csv_file = pandas.read_csv(csv_path)
 
