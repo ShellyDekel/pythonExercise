@@ -50,6 +50,16 @@ class TestConvertor(unittest.TestCase):
         finally:
             os.remove(csv_file_path)
 
+    def test_non_existant_csv_path(self):
+        temp_json_directory = tempfile.TemporaryDirectory().name
+        temp_json_filename = "test.json"
+        
+        try:
+            csv_to_json("fakecsvfile.csv", temp_json_directory, temp_json_filename)
+            self.assertTrue(False, "FileNotFoundError was not raised")
+        except FileNotFoundError:
+            self.assertTrue(True)
+
 
 if __name__ == "__main__":
     unittest.main()
