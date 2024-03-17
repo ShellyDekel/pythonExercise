@@ -83,7 +83,21 @@ class TestConvertor(unittest.TestCase):
             csv_to_json(csv_file_path, temp_json_filename)
             self.assertTrue(os.path.isfile(temp_json_filename))
         except:
-            self.assertTrue(False)
+            self.assertTrue(False, "unexpected error")
+            
+    def test_json_filename_doenst_includes_suffix(self):
+        data = [
+            ["variable1", "variable2", "variable3"],
+            ["value1", 1, "1/1/2001"],
+        ]
+        csv_file_path = create_temp_csv_file(data)
+        temp_json_directory = tempfile.TemporaryDirectory().name
+        temp_json_filename = os.path.join(temp_json_directory, "test")
+        try:
+            csv_to_json(csv_file_path, temp_json_filename)
+            self.assertTrue(os.listdir(temp_json_directory)[0].endswith(".json"))
+        except:
+            self.assertTrue(False, "unexpected error")
             
 
 
