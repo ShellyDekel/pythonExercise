@@ -7,7 +7,9 @@ from main import csv_to_json
 
 
 def create_temp_csv_file(data):
-    with tempfile.NamedTemporaryFile(suffix=".csv", delete=False, mode="w") as temp_csv_file:
+    with tempfile.NamedTemporaryFile(
+        suffix=".csv", delete=False, mode="w"
+    ) as temp_csv_file:
         csv_writer = csv.writer(temp_csv_file)
 
         for row in data:
@@ -29,14 +31,12 @@ class TestConvertor(unittest.TestCase):
         csv_file_path = create_temp_csv_file(data)
 
         temp_json_directory = tempfile.TemporaryDirectory().name
-        temp_json_filename = "test.json"
+        temp_json_filename = os.path.join(temp_json_directory, "test.json")
 
         try:
-            csv_to_json(csv_file_path, temp_json_directory, temp_json_filename)
+            csv_to_json(csv_file_path, temp_json_filename)
 
-            with open(
-                os.path.join(temp_json_directory, temp_json_filename)
-            ) as json_file:
+            with open(temp_json_filename) as json_file:
                 self.assertEqual(
                     json.load(json_file),
                     [
@@ -52,21 +52,21 @@ class TestConvertor(unittest.TestCase):
 
     def test_non_existant_csv_path(self):
         temp_json_directory = tempfile.TemporaryDirectory().name
-        temp_json_filename = "test.json"
-        
+        temp_json_filename = os.path.join(temp_json_directory, "test.json")
+
         try:
-            csv_to_json("fakecsvfile.csv", temp_json_directory, temp_json_filename)
+            csv_to_json("fakecsvfile.csv", temp_json_filename)
             self.assertTrue(False, "FileNotFoundError was not raised")
         except FileNotFoundError:
             self.assertTrue(True)
-            
+
     def test_wrong_file_type(self):
         temp_file = tempfile.TemporaryFile().name
         temp_json_directory = tempfile.TemporaryDirectory().name
-        temp_json_filename = "test.json"
-        
+        temp_json_filename = os.path.join(temp_json_directory, "test.json")
+
         try:
-            csv_to_json(temp_file, temp_json_directory, temp_json_filename)
+            csv_to_json(temp_file, temp_json_filename)
             self.assertTrue(False, "FileNotFoundError was not raised")
         except FileNotFoundError:
             self.assertTrue(True)
