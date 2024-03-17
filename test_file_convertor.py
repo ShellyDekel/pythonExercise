@@ -59,6 +59,17 @@ class TestConvertor(unittest.TestCase):
             self.assertTrue(False, "FileNotFoundError was not raised")
         except FileNotFoundError:
             self.assertTrue(True)
+            
+    def test_wrong_file_type(self):
+        temp_file = tempfile.TemporaryFile().name
+        temp_json_directory = tempfile.TemporaryDirectory().name
+        temp_json_filename = "test.json"
+        
+        try:
+            csv_to_json(temp_file, temp_json_directory, temp_json_filename)
+            self.assertTrue(False, "FileNotFoundError was not raised")
+        except FileNotFoundError:
+            self.assertTrue(True)
 
 
 if __name__ == "__main__":
