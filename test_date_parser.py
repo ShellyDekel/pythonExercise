@@ -1,8 +1,9 @@
 import unittest
 from main import parse_date
 
+
 class TestSum(unittest.TestCase):
-    
+
     def test_regular_date(self):
         data = "20/5/2000"
         result = parse_date(data)
@@ -27,16 +28,12 @@ class TestSum(unittest.TestCase):
         data = 12345
         result = parse_date(data)
         self.assertEqual(result, 12345)
-        
+
     def test_empty_value(self):
         data = None
         result = parse_date(data)
         self.assertEqual(result, None)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
-    
-    
-
-

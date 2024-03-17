@@ -17,7 +17,7 @@ def csv_to_json(csv_path: str, json_file_name: str):
 
     if not json_file_name.endswith(".json"):
         json_file_name += ".json"
-    
+
     os.makedirs(os.path.dirname(json_file_name), exist_ok=True)
 
     try:
@@ -29,7 +29,6 @@ def csv_to_json(csv_path: str, json_file_name: str):
     except:
         with open(json_file_name, "w") as json_file:
             pass
-
 
 
 def main():
