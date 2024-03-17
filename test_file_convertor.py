@@ -70,6 +70,21 @@ class TestConvertor(unittest.TestCase):
             self.assertTrue(False, "FileNotFoundError was not raised")
         except FileNotFoundError:
             self.assertTrue(True)
+    
+    def test_json_directory_doesnt_exist(self):
+        data = [
+            ["variable1", "variable2", "variable3"],
+            ["value1", 1, "1/1/2001"],
+        ]
+        csv_file_path = create_temp_csv_file(data)
+        temp_json_directory = tempfile.TemporaryDirectory().name
+        temp_json_filename = os.path.join(temp_json_directory, "dir/doesn't/exist/test.json")
+        try:
+            csv_to_json(csv_file_path, temp_json_filename)
+            self.assertTrue(os.path.isfile(temp_json_filename))
+        except:
+            self.assertTrue(False)
+            
 
 
 if __name__ == "__main__":
