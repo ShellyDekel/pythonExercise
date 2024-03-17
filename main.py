@@ -20,12 +20,16 @@ def csv_to_json(csv_path: str, json_file_name: str):
     
     os.makedirs(os.path.dirname(json_file_name), exist_ok=True)
 
-    csv_file = pandas.read_csv(csv_path)
+    try:
+        csv_file = pandas.read_csv(csv_path)
+        csv_file = csv_file.map(lambda x: parse_date(x))
 
-    csv_file = csv_file.map(lambda x: parse_date(x))
+        with open(json_file_name, "w") as json_file:
+            json.dump(csv_file.to_dict(orient="records"), json_file, indent=2)
+    except:
+        with open(json_file_name, "w") as json_file:
+            pass
 
-    with open(json_file_name, "w") as json_file:
-        json.dump(csv_file.to_dict(orient="records"), json_file, indent=2)
 
 
 def main():
