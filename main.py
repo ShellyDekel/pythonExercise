@@ -13,7 +13,7 @@ def parse_date(date):
 
 def csv_to_json(csv_path: str, json_directory: str, json_file_name: str):
     if not os.path.isfile(csv_path) or not csv_path.endswith(".csv"):
-        raise FileNotFoundError("CSV file not found")
+        raise Exception("CSV file not found")
 
     if not os.path.isdir(json_directory):
         os.makedirs(json_directory)
