@@ -98,6 +98,18 @@ class TestConvertor(unittest.TestCase):
             self.assertTrue(os.listdir(temp_json_directory)[0].endswith(".json"))
         except:
             self.assertTrue(False, "unexpected error")
+    
+    def test_empty_cvs_file(self):
+        empty_cvs_file = tempfile.NamedTemporaryFile(suffix=".csv", delete=False, mode="w")
+        temp_json_directory = tempfile.TemporaryDirectory().name
+        temp_json_filename = os.path.join(temp_json_directory, "test.json")
+        
+        csv_to_json(empty_cvs_file.name, temp_json_filename)
+        
+        self.assertTrue(os.path.isfile(temp_json_filename) and os.path.getsize(temp_json_filename) == 0)
+            
+            
+        
             
 
 
