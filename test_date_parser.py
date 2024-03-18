@@ -33,6 +33,17 @@ class TestParser(unittest.TestCase):
         data = None
         result = parser.parse_date(data)
         self.assertEqual(result, None)
+        
+    
+    def test_no_dates(self):
+        data = [{"key1": "value1"}, {"key1": "value2"}]
+        result = parser.parse_dates_dict(data)
+        self.assertEqual(result, data)
+        
+    def test_all_dates_converted(self):
+        data = [{"key1": "1/2/2003"}, {"key1": "Feb 8 1999", "key2": "9.22.2024"}]
+        result = parser.parse_dates_dict(data)
+        self.assertEqual(result, [{"key1": "01.02.2003"}, {"key1": "08.02.1999", "key2": "22.09.2024"}])
 
 
 if __name__ == "__main__":
