@@ -7,8 +7,8 @@ def parse_date(value):
         return value
     
 def parse_dates_dict(dictionary_list):
-    for index in dictionary_list:
-        for key, value in dictionary_list[index]:
-            dictionary_list[index][key] = parse_date(value)
+    for dictionary in dictionary_list:
+        for key, value in dictionary.items():
+            dictionary[key] = parse_date(value)
     
     return dictionary_list
