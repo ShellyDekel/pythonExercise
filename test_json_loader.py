@@ -1,4 +1,4 @@
-from load.upload_file import to_json
+from load.load_json_file import to_json
 import unittest
 import tempfile
 import json
@@ -24,7 +24,7 @@ class TestConvertor(unittest.TestCase):
             self.assertEqual(json.load(json_file), data)
 
     def test_large_data(self):
-        data = list(repeat({"key1": "value1", "key2": "value2"}, 50001))
+        data = list(repeat({"key1": "value1", "key2": "value2"}, 50001)) #TODO test more than just amount of files created, test files actually hold the expected values
         temporary_dir = tempfile.TemporaryDirectory().name
         base_filename = "testfile"
         to_json(data, temporary_dir, base_filename)
@@ -47,7 +47,7 @@ class TestConvertor(unittest.TestCase):
                 os.path.isfile(os.path.join(temporary_dir, base_filename + ".json"))
             )
         except:
-            self.assertTrue(False, "function failed")
+            self.fail("function failed")
 
 
 if __name__ == "__main__":
