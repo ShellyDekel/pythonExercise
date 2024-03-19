@@ -7,4 +7,4 @@ def extract_csv(filepath):
     if not file_data == []:
         return file_data
     else:
-        raise FileNotFoundError("file empty")
+        raise FileNotFoundError("file does not contain any values")
