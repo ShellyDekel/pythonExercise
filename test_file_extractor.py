@@ -1,7 +1,4 @@
-import unittest
-import tempfile
-import csv
-import os
+import unittest, tempfile, csv
 from extract.extract_csv_file import extract_csv
 
 
