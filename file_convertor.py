@@ -1,12 +1,13 @@
-from extract import extract_files
-from transform import parser
-from load import upload_file
+from extract.extract_csv_file import extract_csv
+from transform.parse_dates import parse_dates_in_dictionary_list
+from load.load_json_file import to_json
 import os
 
 
 def csv_to_json_convertor(source, destination):
-    source_data = extract_files.extract_csv(source)
-    transformed_data = parser.parse_dates_dict(source_data)
+    source_data = extract_csv(source)
+    date_collums = filter(lambda key: "date" in key.lower(), list(source_data[0]))
+    transformed_data = parse_dates_in_dictionary_list(source_data, date_collums)
     destination_file_name = os.path.basename(source).split(".", 1)[0]
 
-    upload_file.to_json(transformed_data, destination, destination_file_name)
+    to_json(transformed_data, destination, destination_file_name)
