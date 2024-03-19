@@ -4,46 +4,59 @@ from transform import parse_dates
 
 class TestParser(unittest.TestCase):
 
-    def test_regular_date(self):
+    def test_regularDMYDate_parsedDate(self):
         data = "20/5/2000"
         result = parse_dates.parse_date(data)
         self.assertEqual(result, "20.05.2000")
 
-    def test_american_date(self):
+    def test_MDYDate_ParsedDMYDate(self):
         data = "7-25-2002"
         result = parse_dates.parse_date(data)
         self.assertEqual(result, "25.07.2002")
 
-    def test_plaintext_date(self):
+    def test_plaintextDate_ParsedDMYDate(self):
         data = "January 2nd 2003"
         result = parse_dates.parse_date(data)
         self.assertEqual(result, "02.01.2003")
 
-    def test_not_a_date(self):
+    def test_notADate_trowError(self):
         data = "example"
-        result = parse_dates.parse_date(data)
-        self.assertEqual(result, "example")
+        with self.assertRaises(TypeError):
+            parse_dates.parse_date(data)
 
-    def test_numerical_value(self):
-        data = 12345
-        result = parse_dates.parse_date(data)
-        self.assertEqual(result, 12345)
+    def test_datelikeNumericalValue_throwError(self):
+        data = 12032022
+        with self.assertRaises(TypeError):
+            parse_dates.parse_date(data)
 
-    def test_empty_value(self):
+    def test_emptyVariable_throwError(self):
         data = None
-        result = parse_dates.parse_date(data)
-        self.assertEqual(result, None)
-        
-    
-    def test_no_dates(self):
-        data = [{"key1": "value1"}, {"key1": "value2"}]
-        result = parse_dates.parse_dates_dict(data)
-        self.assertEqual(result, data)
-        
-    def test_all_dates_converted(self):
-        data = [{"key1": "1/2/2003"}, {"key1": "Feb 8 1999", "key2": "9.22.2024"}]
-        result = parse_dates.parse_dates_dict(data)
-        self.assertEqual(result, [{"key1": "01.02.2003"}, {"key1": "08.02.1999", "key2": "22.09.2024"}])
+        with self.assertRaises(TypeError):
+            parse_dates.parse_date(data)
+
+    def test_averageInput_successfullyParsedAllDates(self):
+        data = [
+            {"key1": "value1", "date": "1/2/2003", "another": "jan 5 2019", "last": 78},
+            {"key1": "value2", "date": "8/8/1994", "another": "oct 18 1984","last": 555},
+            {"key1": "string", "date": "6/12/2021", "another": "feb 22 1807","last": 12}
+        ]
+        expected = [
+            {"key1": "value1", "date": "01.02.2003", "another": "05.01.2019","last": 78},
+            {"key1": "value2", "date": "08.08.1994", "another": "18.10.1984","last": 555},
+            {"key1": "string", "date": "06.12.2021", "another": "22.02.1807","last": 12}
+        ]
+        result = parse_dates.parse_dates_in_dictionary_list(data, ["date", "another"])
+        self.assertEqual(result, expected)
+
+    def test_averageInput_originalDataUnchangedAfterCallingFunction(self):
+        data = [
+            {"key1": "value1", "date": "1/2/2003", "another": "jan 5 2019", "last": 78},
+            {"key1": "value2", "date": "8/8/1994", "another": "oct 18 1984","last": 555},
+            {"key1": "string", "date": "6/12/2021", "another": "feb 22 1807","last": 12}
+        ]
+        result = parse_dates.parse_dates_in_dictionary_list(data, ["date", "another"])
+        self.assertNotEqual(result, data)
+
 
 if __name__ == "__main__":
     unittest.main()
