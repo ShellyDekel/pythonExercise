@@ -35,7 +35,19 @@ class TestConvertor(unittest.TestCase):
             ],
         )
 
-    # TODO: add test for file with only titles, test with empty file
+    def test_emptyFile_throwError(self):
+        csv_file = tempfile.NamedTemporaryFile(suffix=".csv", mode="w").name
+
+        with self.assertRaises(FileNotFoundError):
+            extract_csv(csv_file)
+
+    def test_fileWithTitlesOnly_throwError(self):
+        data = [["variable1", "variable2", "variable3"]]
+        csv_file = tempfile.NamedTemporaryFile(suffix=".csv", mode="w").name
+        write_csv_file(csv_file, data)
+
+        with self.assertRaises(FileNotFoundError):
+            extract_csv(csv_file)
 
 
 if __name__ == "__main__":
