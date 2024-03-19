@@ -10,4 +10,4 @@ def csv_to_json_convertor(source, destination):
     transformed_data = parse_dates_in_dictionary_list(source_data, date_collums)
     destination_file_name = os.path.basename(source).split(".", 1)[0]
 
-    to_json(transformed_data, destination, destination_file_name)
+    to_json(transformed_data, destination, destination_file_name, 50000)
