@@ -25,22 +25,26 @@ class TestConvertor(unittest.TestCase):
             self.assertEqual(json.load(json_file), data)
 
     def test_dataPassesFileLimit_loadedMultipleFilesSuccessfully(self):
-        data = list(repeat({"key1": random_word(5), "key2": random_word(10)}, 11))
+        data = list(repeat({"key1": random_word(5), "key2": random_word(10)}, 21))
         temporary_dir = tempfile.TemporaryDirectory().name
         base_filename = "testfile"
         to_json(data, temporary_dir, base_filename, 10)
         expected_first = data[0:10]
-        expected_second = data[10:11]
+        expected_second = data[10:20]
+        expected_third = data[20:21]
 
         with open(
             os.path.join(temporary_dir, base_filename + "1.json")
         ) as first_json, open(
             os.path.join(temporary_dir, base_filename + "2.json")
-        ) as second_json:
+        ) as second_json, open(
+            os.path.join(temporary_dir, base_filename + "3.json")
+        ) as third_json:
             self.assertTrue(
-                len(os.listdir(temporary_dir)) == 2
+                len(os.listdir(temporary_dir)) == 3
                 and json.load(first_json) == expected_first
                 and json.load(second_json) == expected_second
+                and json.load(third_json) == expected_third
             )
 
     def test_directoryDoesntExist_loadedSuccessfullyInNewlyCreatedDirectory(self):
