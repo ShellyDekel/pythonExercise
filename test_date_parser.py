@@ -74,6 +74,15 @@ class TestParser(unittest.TestCase):
         ]
         with self.assertRaises(KeyError):
             parse_dates.parse_dates_in_dictionary_list(data, ["thisKeyDoesntExist"])
+            
+    def test_functionGivenEmptyListOfKeys_ThrowError(self):
+        data = [
+            {"key1": "val1", "date": "1/2/2003", "another": "jan 5 2019", "last": 78},
+            {"key1": "hello", "date": "8/8/1994", "another": "oct 18 1984", "last": 5},
+            {"key1": "str", "date": "6/12/2021", "another": "feb 22 1807", "last": 12},
+        ]
+        with self.assertRaises(ValueError):
+            parse_dates.parse_dates_in_dictionary_list(data, [])
 
 
 if __name__ == "__main__":
