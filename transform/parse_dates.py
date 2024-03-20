@@ -15,10 +15,7 @@ def parse_date(value):
         raise TypeError("value is not a date")
 
 
-def parse_dates_in_dictionary_list(dictionary_list, date_columns):
-    logger.debug(
-        "parsing dictionary list according to values: [" + ", ".join(date_columns) + "]"
-    )
+def parse_dates_in_dictionary_list(dictionary_list, date_columns: list):
 
     if not date_columns:
         logger.error("no columns were given")
@@ -26,12 +23,11 @@ def parse_dates_in_dictionary_list(dictionary_list, date_columns):
         raise ValueError("no date columns given")
     else:
         parsed_list = copy.deepcopy(dictionary_list)
-
+        logger.debug("start converting list")
         for key in date_columns:
+            logger.debug("parsing column: " + key)
             for dictionary in parsed_list:
-
                 try:
-                    logger.debug(list(dictionary))
                     dictionary[key] = parse_date(dictionary[key])
                 except KeyError:
                     logger.error(

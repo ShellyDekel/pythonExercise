@@ -9,7 +9,7 @@ def to_json(data, destination, base_filename, file_limit):
         raise ValueError("no data to load")
     else:
         if not os.path.isdir(destination):
-            logger.debug("generating directories")
+            logger.info("generating directories")
             os.makedirs(destination)
 
         if len(data) <= file_limit:
