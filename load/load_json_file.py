@@ -5,21 +5,33 @@ logger = logging.getLogger(__name__)
 
 def to_json(data, destination, base_filename, file_limit):
     if not data:
+        logger.error("data list given is empty")
         raise ValueError("no data to load")
     else:
-        os.makedirs(destination, exist_ok=True)
+        if not os.path.isdir(destination):
+            logger.debug("generating directories")
+            os.makedirs(destination)
 
         if len(data) <= file_limit:
+            logger.info("loading data into json file")
             with open(
                 os.path.join(destination, base_filename + ".json"), "w"
             ) as json_file:
                 json.dump(data, json_file, indent=2)
+
+            logger.info("file generated: " + json_file.name)
         else:
-            splitted_data = [data[i:i + file_limit] for i in range(0, len(data), file_limit)]
+            logger.info("data extends file limit, creating multiple files")
+            splitted_data = [
+                data[i : i + file_limit] for i in range(0, len(data), file_limit)
+            ]
             index = 1
             for chunk in splitted_data:
                 with open(
                     os.path.join(destination, base_filename + str(index) + ".json"), "w"
                 ) as json_file:
                     json.dump(chunk, json_file, indent=2)
-                index += 1
+                logger.debug("file generated: " + json_file.name)
+            index += 1
+
+            logger.info("files generated at '" + destination + "'. file count: " + str(len(splitted_data)))
