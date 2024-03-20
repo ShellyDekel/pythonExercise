@@ -29,7 +29,17 @@ def parse_dates_in_dictionary_list(dictionary_list, date_columns):
 
         for key in date_columns:
             for dictionary in parsed_list:
-                dictionary[key] = parse_date(dictionary[key])
+
+                try:
+                    logger.debug(list(dictionary))
+                    dictionary[key] = parse_date(dictionary[key])
+                except KeyError:
+                    logger.error(
+                        "key: "
+                        + key
+                        + " does not exist in the given dictionary list"
+                    )
+                    raise KeyError(key + "does not exist in given dictionary")
 
         logger.info("dictionary list parsed successfully")
 
