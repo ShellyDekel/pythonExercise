@@ -16,7 +16,7 @@ def parse_date(value):
 
 
 def parse_dates_in_dictionary_list(dictionary_list, date_columns):
-    logger.info(
+    logger.debug(
         "parsing dictionary list according to values: [" + ", ".join(date_columns) + "]"
     )
 
