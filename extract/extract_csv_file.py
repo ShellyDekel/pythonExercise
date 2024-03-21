@@ -15,7 +15,7 @@ def extract_csv(filepath):
             logger.error("csv file " + filepath + " cannot be extracted: wrong file format")
             raise FileNotFoundError("wrong file format, function requires csv file")
         
-        if not file_data == []:
+        if file_data:
             logger.info("successfully extracted csv file " + filepath)
             return file_data
         else:
